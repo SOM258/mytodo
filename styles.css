@@ -1,0 +1,172 @@
+/* --- 全局变量 --- */
+:root {
+    --bg-color: rgba(255, 255, 255, 0.96);
+    --card-bg: #ffffff;
+    --text-main: #37352f;
+    --text-light: #9b9a97;
+    --accent: #2e2e2e;
+    --border: #e0e0e0;
+    --danger: #ff4d4f;
+    --header-bg: rgba(255,255,255,0.5);
+    --hover-bg: #f7f7f5;
+    --shadow: 0 5px 15px rgba(0,0,0,0.1);
+    --date-header-bg: #f9f9f9;
+    
+    /* 时钟变量 */
+    --clock-bg: #ffffff;
+    --clock-border: #e0e0e0;
+    --clock-hand: #2e2e2e;
+    --clock-sec: #ff4d4f;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-color: rgba(30, 30, 30, 0.96);
+        --card-bg: #2d2d2d;
+        --text-main: #e0e0e0;
+        --text-light: #888888;
+        --accent: #ffffff;
+        --border: #444444;
+        --header-bg: rgba(30,30,30,0.5);
+        --hover-bg: #3a3a3a;
+        --shadow: 0 5px 15px rgba(0,0,0,0.5);
+        --date-header-bg: #333333;
+
+        /* 时钟深色适配 */
+        --clock-bg: #222;
+        --clock-border: #555;
+        --clock-hand: #eee;
+        --clock-sec: #ff6b6b;
+    }
+}
+
+body {
+    margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: transparent; height: 100vh; display: flex; justify-content: center; align-items: center;
+    user-select: none; color: var(--text-main);
+}
+.app-container {
+    width: 100%; height: 100%; background: var(--bg-color);
+    border: 1px solid rgba(0,0,0,0.1); border-radius: 12px;
+    display: flex; flex-direction: column;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15); overflow: hidden;
+    position: relative; /* 为了定位时钟 */
+}
+
+/* 顶部与输入区 */
+.header { -webkit-app-region: drag; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; background: var(--header-bg); border-bottom: 1px solid var(--border); }
+.logo { font-weight: 700; font-size: 16px; color: var(--text-main); }
+.icon-btn { -webkit-app-region: no-drag; border: none; background: transparent; cursor: pointer; font-size: 14px; color: var(--text-light); padding: 5px 8px; border-radius: 4px; transition: 0.2s; }
+.icon-btn:hover { background: var(--hover-bg); color: var(--text-main); }
+.icon-btn.active { color: #2196f3; background: rgba(33, 150, 243, 0.1); }
+.icon-btn.close:hover { color: white; background: var(--danger); }
+.input-section { padding: 15px 20px; display: flex; gap: 10px; }
+input { flex: 1; padding: 8px 12px; border: 1px solid var(--border); border-radius: 6px; outline: none; font-size: 14px; background: var(--card-bg); color: var(--text-main); }
+input:focus { border-color: var(--text-light); }
+button { padding: 8px 15px; border: 1px solid var(--border); background: var(--card-bg); border-radius: 6px; cursor: pointer; font-size: 13px; color: var(--text-main); transition: 0.2s; }
+button:hover { background: var(--hover-bg); }
+.btn-primary { background: var(--text-main); color: var(--card-bg); border: none; }
+.btn-primary:hover { opacity: 0.9; }
+
+/* 列表区 */
+.content-body { flex: 1; display: flex; overflow: hidden; }
+.column { flex: 1; padding: 0 10px; display: flex; flex-direction: column; border-right: 1px solid var(--border); }
+.column:last-child { border-right: none; }
+.col-title { padding: 10px 5px; font-size: 12px; color: var(--text-light); font-weight: 600; }
+.task-list { flex: 1; overflow-y: auto; padding-bottom: 60px; /* 底部留白给时钟 */ }
+
+/* 任务卡片 */
+.task-item { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 8px; padding: 10px; position: relative; display: flex; align-items: center; flex-wrap: wrap; animation: slideUp 0.4s forwards; transition: transform 0.2s, box-shadow 0.2s; }
+.task-item:hover { transform: translateY(-3px) scale(1.01); box-shadow: var(--shadow); border-color: var(--text-light); }
+.task-item.exploding { animation: flashKill 0.6s ease-out forwards !important; pointer-events: none; }
+.sortable-ghost { opacity: 0.4; background: var(--hover-bg); border: 2px dashed var(--text-light); }
+.sortable-drag { cursor: grabbing; background: var(--card-bg); box-shadow: 0 10px 20px rgba(0,0,0,0.2); transform: scale(1.05); }
+
+/* 分组与子任务 */
+.group-header { font-weight: 600; font-size: 14px; margin-bottom: 8px; display: flex; align-items: center; gap: 5px; width: 100%; }
+.sub-list { padding-left: 10px; border-left: 2px solid var(--border); width: 100%; }
+.sub-input { width: 90%; margin-top: 5px; font-size: 12px; padding: 4px; border: none; border-bottom: 1px solid var(--border); background: transparent; color: var(--text-main); }
+.checkbox { width: 16px; height: 16px; border: 1.5px solid var(--text-light); border-radius: 4px; cursor: pointer; display: inline-block; vertical-align: middle; margin-right: 8px; position: relative; transition: 0.2s; flex-shrink: 0; }
+.checkbox.checked { background: var(--text-main); border-color: var(--text-main); }
+.checkbox.checked::after { content: '✓'; color: var(--card-bg); font-size: 10px; position: absolute; top: -1px; left: 3px; }
+.btn-delete { background: transparent; border: none; color: var(--text-light); cursor: pointer; font-size: 14px; padding: 5px; margin-left: auto; transition: 0.2s; opacity: 0; }
+.task-item:hover .btn-delete, .group-header:hover .btn-delete, .sub-list > div:hover .btn-delete, .done-date-header:hover .btn-delete { opacity: 1; }
+.btn-delete:hover { color: var(--danger); background: rgba(255, 77, 79, 0.1); border-radius: 4px; }
+.group-title-done { text-decoration: line-through; color: var(--text-light); }
+
+/* 日期分组 */
+.done-date-group { margin-bottom: 20px; animation: slideUp 0.3s ease-out; transform-origin: top; overflow: hidden; }
+.done-date-group.collapsing { animation: collapseAnim 0.5s ease-in-out forwards; }
+.done-date-header { font-size: 12px; font-weight: bold; color: var(--text-light); background: var(--date-header-bg); padding: 5px 10px; border-radius: 6px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
+.task-time-tag { font-size: 11px; color: var(--text-light); margin-left: auto; padding-right: 5px; font-family: Consolas, monospace; }
+#doneList .task-item { border-left: 3px solid #4cd964; padding-right: 5px; }
+
+/* Modal */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(2px); display: flex; justify-content: center; align-items: center; z-index: 999; opacity: 0; pointer-events: none; transition: opacity 0.2s ease; }
+.modal-overlay.show { opacity: 1; pointer-events: auto; }
+.modal-box { background: var(--card-bg); width: 300px; padding: 20px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); transform: scale(0.9); transition: transform 0.2s; color: var(--text-main); border: 1px solid var(--border); }
+.modal-overlay.show .modal-box { transform: scale(1); }
+.modal-title { font-weight: bold; font-size: 16px; margin-bottom: 10px; }
+.modal-msg { font-size: 14px; color: var(--text-light); margin-bottom: 20px; line-height: 1.5; }
+.modal-actions { display: flex; justify-content: flex-end; gap: 10px; }
+.btn-cancel { border: 1px solid var(--border); background: var(--card-bg); color: var(--text-main); }
+.btn-confirm { background: var(--danger); color: white; border: none; }
+.stats-grid { display: flex; justify-content: center; align-items: center; margin: 20px 0; }
+.stats-item { flex: 1; }
+.stats-num { font-size: 36px; font-weight: 800; color: #4cd964; margin-bottom: 5px; }
+.stats-label { font-size: 12px; color: var(--text-light); }
+.stats-divider { width: 1px; height: 40px; background: var(--border); margin: 0 10px; }
+
+/* --- ✨ 悬浮时钟 (New) --- */
+.floating-clock {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--clock-bg);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s;
+    z-index: 100;
+}
+.floating-clock:hover {
+    transform: scale(1.15);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+.clock-face {
+    position: relative;
+    width: 100%; height: 100%;
+    border: 3px solid var(--clock-border);
+    border-radius: 50%;
+    box-sizing: border-box;
+}
+.hand {
+    position: absolute; bottom: 50%; left: 50%;
+    transform-origin: bottom center;
+    background: var(--clock-hand);
+    border-radius: 4px;
+    z-index: 2;
+}
+.hour-hand { width: 3px; height: 14px; margin-left: -1.5px; }
+.min-hand { width: 2px; height: 20px; margin-left: -1px; }
+.sec-hand { width: 1px; height: 22px; margin-left: -0.5px; background: var(--clock-sec); z-index: 3; }
+.center-dot {
+    position: absolute; top: 50%; left: 50%; width: 6px; height: 6px;
+    background: var(--clock-sec); border-radius: 50%;
+    transform: translate(-50%, -50%); z-index: 4;
+}
+.marker {
+    position: absolute; background: var(--clock-border);
+}
+.marker.twelve { top: 3px; left: 50%; width: 2px; height: 5px; transform: translateX(-50%); }
+.marker.six { bottom: 3px; left: 50%; width: 2px; height: 5px; transform: translateX(-50%); }
+.marker.three { right: 3px; top: 50%; width: 5px; height: 2px; transform: translateY(-50%); }
+.marker.nine { left: 3px; top: 50%; width: 5px; height: 2px; transform: translateY(-50%); }
+
+/* 动画定义 */
+@keyframes slideUp { 0% { opacity: 0; transform: translateY(20px) scale(0.95); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes flashKill { 0% { background: var(--card-bg); transform: scale(1); } 30% { background: #d4edda; transform: scale(1.02); } 100% { opacity: 0; transform: scale(0.8) translateY(-10px); } }
+@keyframes slideInRight { 0% { opacity: 0; transform: translateX(-10px); } 100% { opacity: 1; transform: translateX(0); } }
+@keyframes collapseAnim { 0% { opacity: 1; max-height: 500px; transform: scale(1); margin-bottom: 20px; } 50% { opacity: 0; transform: scale(0.95); } 100% { opacity: 0; max-height: 0; margin-bottom: 0; padding: 0; border: none; } }

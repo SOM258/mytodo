@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <div class="header">
+            <div class="header-left">
+                <span class="logo">📝 My Tasks</span>
+            </div>
+            <div class="header-right">
+                <button id="pinBtn" class="icon-btn" title="切换置顶" onclick="togglePin()">
+                    <i class="fas fa-thumbtack"></i>
+                </button>
+                <button class="icon-btn close" onclick="closeApp()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="input-section">
+            <input type="text" id="taskInput" placeholder="输入任务名称...">
+            <div class="btn-group">
+                <button onclick="addSimpleTask()">单项</button>
+                <button onclick="addGroupTask()" class="btn-primary">新建分组</button>
+            </div>
+        </div>
+
+        <div class="content-body">
+            <div class="column">
+                <div class="col-title">🔥 进行中</div>
+                <div id="pendingList" class="task-list"></div>
+            </div>
+            <div class="column">
+                <div class="col-title">✅ 已完成</div>
+                <div id="doneList" class="task-list"></div>
+            </div>
+        </div>
+        
+        <div id="clockBtn" class="floating-clock" title="点击查看本轮战绩">
+            <div class="clock-face">
+                <div class="hand hour-hand" id="hourHand"></div>
+                <div class="hand min-hand" id="minHand"></div>
+                <div class="hand sec-hand" id="secHand"></div>
+                <div class="center-dot"></div>
+                <div class="marker twelve"></div>
+                <div class="marker three"></div>
+                <div class="marker six"></div>
+                <div class="marker nine"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="customModal" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-title">确认删除</div>
+            <div id="modalMsg" class="modal-msg">确定要删除这条记录吗？</div>
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closeModal()">取消</button>
+                <button id="confirmBtn" class="btn-confirm">删除</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="statsModal" class="modal-overlay">
+        <div class="modal-box" style="text-align: center;">
+            <div class="modal-title">🏆 本轮战绩</div>
+            <div class="stats-grid">
+                <div class="stats-item">
+                    <div class="stats-num" id="statsBig">0</div>
+                    <div class="stats-label">大任务</div>
+                </div>
+                <div class="stats-divider"></div>
+                <div class="stats-item">
+                    <div class="stats-num" id="statsSmall">0</div>
+                    <div class="stats-label">小任务</div>
+                </div>
+            </div>
+            <div class="modal-msg" style="margin-top:15px; font-size:12px; color:#aaa;">
+                统计说明：只增不减（即使删除记录也保留）<br>直到你手动归零
+            </div>
+            <div class="modal-actions" style="justify-content: center; gap: 15px; margin-top: 20px;">
+                <button class="btn-cancel" onclick="closeStats(false)">继续努力</button>
+                <button class="btn-primary" onclick="closeStats(true)" style="background: #4cd964;">✨ 打卡归零</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="renderer.js"></script>
+</body>
+</html>

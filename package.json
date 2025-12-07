@@ -1,0 +1,51 @@
+{
+  "name": "mytodoapp",
+  "version": "1.0.0",
+  "description": "我的极简 Todo",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "author": "Me",
+  "license": "ISC",
+  "dependencies": {
+    "sortablejs": "^1.15.0"
+  },
+  "devDependencies": {
+    "electron": "^33.0.0",
+    "electron-builder": "^25.0.0"
+  },
+  "build": {
+    "appId": "com.mytodo.app",
+    "productName": "MyTodoApp",
+    "compression": "maximum", 
+    "asar": true,
+    "files": [
+      "main.js",
+      "renderer.js",
+      "index.html",
+      "styles.css",
+      "icon.ico",
+      "package.json",
+      "node_modules/**/*" 
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  }
+}
