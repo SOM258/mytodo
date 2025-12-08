@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <div class="header">
+            <div class="logo">📝 My Tasks</div>
+            <div id="headerDate" class="header-date">Loading...</div>
+            <div class="header-right">
+                <button id="backupBtn" class="icon-btn" title="备份/恢复数据">
+                    <i class="fas fa-save"></i>
+                </button>
+                
+                <button id="pinBtn" class="icon-btn" title="切换置顶">
+                    <i class="fas fa-thumbtack"></i>
+                </button>
+                <button id="minBtn" class="icon-btn" title="最小化">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <button id="closeBtn" class="icon-btn close" title="关闭">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="input-section">
+            <input type="text" id="taskInput" placeholder="输入任务名称...">
+            <div class="btn-group">
+                <button id="addSimpleBtn">单项</button>
+                <button id="addGroupBtn" class="btn-primary">新建分组</button>
+            </div>
+        </div>
+
+        <div class="content-body">
+            <div class="column">
+                <div class="col-title">🔥 进行中</div>
+                <div id="pendingList" class="task-list"></div>
+            </div>
+            <div class="column">
+                <div class="col-title">✅ 已完成</div>
+                <div id="doneList" class="task-list"></div>
+            </div>
+        </div>
+        
+        <div id="clockBtn" class="floating-clock" title="点击查看本轮战绩">
+            <div class="clock-face">
+                <div class="hand hour-hand" id="hourHand"></div>
+                <div class="hand min-hand" id="minHand"></div>
+                <div class="hand sec-hand" id="secHand"></div>
+                <div class="center-dot"></div>
+                <div class="marker twelve"></div>
+                <div class="marker three"></div>
+                <div class="marker six"></div>
+                <div class="marker nine"></div>
+            </div>
+        </div>
+    </div>
+
+    <input type="file" id="importInput" accept=".json" style="display: none;">
+
+    <div id="customModal" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-title">提示</div>
+            <div id="modalMsg" class="modal-msg">...</div>
+            <div class="modal-actions">
+                <button id="cancelBtn" class="btn-cancel">取消</button>
+                <button id="confirmBtn" class="btn-confirm">确定</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="statsModal" class="modal-overlay">
+        <div class="modal-box" style="text-align: center;">
+            <div class="modal-title">🏆 本轮战绩</div>
+            <div class="stats-grid">
+                <div class="stats-item">
+                    <div class="stats-num" id="statsBig">0</div>
+                    <div class="stats-label">大任务</div>
+                </div>
+                <div class="stats-divider"></div>
+                <div class="stats-item">
+                    <div class="stats-num" id="statsSmall">0</div>
+                    <div class="stats-label">小任务</div>
+                </div>
+            </div>
+            <div class="modal-msg" style="margin-top:15px; font-size:12px; color:#aaa;">统计说明：只增不减<br>直到你手动归零</div>
+            <div class="modal-actions" style="justify-content: center; gap: 15px; margin-top: 20px;">
+                <button id="statsCloseBtn" class="btn-cancel">继续努力</button>
+                <button id="statsResetBtn" class="btn-primary" style="background: #4cd964;">✨ 打卡归零</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/main.js"></script>
+</body>
+</html>
