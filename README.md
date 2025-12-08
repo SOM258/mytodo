@@ -27,3 +27,6 @@ It is an AI-generated "black box".
 
 2. 安装并运行。
    Install and run.
+<img width="887" height="582" alt="屏幕截图 2025-12-08 142247" src="https://github.com/user-attachments/assets/bc65afce-a797-4d34-b7c6-3e2ff0d90033" />
+<img width="897" height="600" alt="屏幕截图 2025-12-07 200419" src="https://github.com/user-attachments/assets/904cd343-e6a9-4138-b4ce-816aa8c3c7c0" />
+<img width="902" height="597" alt="屏幕截图 2025-12-07 200433" src="https://github.com/user-attachments/assets/4fe7ddce-90ec-424b-8b4a-e18234eafe9b" />
