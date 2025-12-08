@@ -17,8 +17,7 @@ Created to satisfy personal needs for a minimalist desktop to-do list and to tes
 由于作者是零代码基础，本项目目前暂时没有人工维护和优化的能力。
 Since I have zero coding knowledge, I currently have no ability to maintain or optimize this project manually.
 
-它是一个完全由 AI 生成的“黑盒”产品。
-It is an AI-generated "black box".
+
 
 ## 📦 安装 / Installation
 
